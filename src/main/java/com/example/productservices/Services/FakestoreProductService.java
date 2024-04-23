@@ -1,14 +1,10 @@
-package com.example.productservices.services;
+package com.example.productservices.Services;
 
-import com.example.productservices.dtos.FakeStoreDto;
-import com.example.productservices.models.Product;
+import com.example.productservices.DTO.FakeStoreDto;
+import com.example.productservices.Models.Product;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
 
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
 import java.util.Arrays;
 import java.util.List;
 
@@ -19,7 +15,7 @@ public class FakestoreProductService implements ProductService{
     private final String url = "https://fakestoreapi.com/products";
     @Override
     public List<FakeStoreDto> getAllProducts(String limit, String sort) throws Exception {
-        String urlCopy = new String(url);
+        String urlCopy = url;
         System.out.println(limit);
 
         urlCopy += "?sort="+sort;
@@ -38,22 +34,20 @@ public class FakestoreProductService implements ProductService{
 
     @Override
     public FakeStoreDto getSingleProduct(Long id) {
-        FakeStoreDto response = restTemplate.getForObject(
+        return restTemplate.getForObject(
                 url+"/"+id,
                 FakeStoreDto.class
         );
-        return response;
     }
 
     @Override
     public FakeStoreDto createProduct(FakeStoreDto product) {
-        FakeStoreDto newProduct = restTemplate.postForObject(
+
+        return restTemplate.postForObject(
                 url,
                 product,
                 FakeStoreDto.class
         );
-
-        return newProduct;
     }
 
     @Override
@@ -73,11 +67,10 @@ public class FakestoreProductService implements ProductService{
 
     @Override
     public String[] getAllCategory(){
-        String[] response = restTemplate.getForObject(
+        return restTemplate.getForObject(
                 url+"/categories",
                 String[].class
         );
-        return response;
     }
 
     @Override
@@ -87,5 +80,10 @@ public class FakestoreProductService implements ProductService{
                 FakeStoreDto[].class
         );
         return Arrays.asList(response);
+    }
+
+    @Override
+    public Product upsertProduct(Product product) {
+        return null;
     }
 }

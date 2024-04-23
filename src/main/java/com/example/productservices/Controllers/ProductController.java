@@ -1,14 +1,10 @@
-package com.example.productservices.controllers;
+package com.example.productservices.Controllers;
 
-import com.example.productservices.dtos.FakeStoreDto;
-import com.example.productservices.models.Product;
-import com.example.productservices.services.FakestoreProductService;
-import com.example.productservices.services.ProductService;
-import jdk.jfr.Frequency;
-import org.springframework.core.PriorityOrdered;
+import com.example.productservices.DTO.FakeStoreDto;
+import com.example.productservices.Models.Product;
+import com.example.productservices.Services.ProductService;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -35,7 +31,7 @@ public class ProductController {
     }
 
     @GetMapping("/products/{id}")
-    public FakeStoreDto getSingleProduct(@PathVariable("id") Long id) {
+    public FakeStoreDto getSingleProduct(@PathVariable("id") Long id) throws Exception {
         return productService.getSingleProduct(id);
     }
 
@@ -45,9 +41,9 @@ public class ProductController {
     }
 
     @PutMapping("/products/{id}")
-    public void updateProduct(@PathVariable("id") Long id, @RequestBody FakeStoreDto product){
-        productService.updateProduct(id,product);
-
+    public void updateProduct(@PathVariable("id") Long id, @RequestBody FakeStoreDto product) {
+        productService.updateProduct(id, product);
+    }
 
     @DeleteMapping("/product/{id}")
     public void deleteProduct(@PathVariable("id") Long id){
@@ -63,6 +59,13 @@ public class ProductController {
     public List<FakeStoreDto> getProductOfCategory(@PathVariable("productCategory") String productCategory) {
         return productService.getProductOfCategory(productCategory);
     }
+
+    @PostMapping("/products/upsert")
+    public Product upsertProduct(@RequestBody Product product){
+        return  productService.upsertProduct(product);
+    }
+
+
 }
 
 
